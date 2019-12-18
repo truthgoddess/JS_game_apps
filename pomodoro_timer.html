@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css">
+<TITLE>Pomodoro Timer by Kate Norton</TITLE>
+
+<STYLE>
+/* code written by Kate Norton 2017, all rights reserved */
+
+@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
+
+body {
+  background: ivory;
+  
+}
+
+.btn-group{
+  background: ivory;
+  
+}
+
+.work-btn {
+  background: cornflowerblue;
+  font-size: 200%;
+  border: none !important;
+  
+}
+
+.break-btn {
+  background: yellowgreen;
+  font-size: 200%;
+  border: none !important;
+}
+
+.frozen-btn {
+  background: grey;
+  font-size: 200%;
+  border: none !important;
+}
+
+.main-clock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  background: ivory;
+  font-size: 100%;
+  color: black;
+  border: none !important;
+  
+}
+
+.glyphicon-btn {
+  padding-top: 10px;
+}
+
+.fixed-top {
+  background: ivory !important;
+}
+
+
+</STYLE>
+</HEAD>
+
+<BODY>
+<!-- code written by Kate Norton 2017, all rights reserved -->
+
+<div class="fixed-top bg-primary">
+  <div class="btn-group" id = "timer-list" style="width:100%">
+    <!-- buttons will go here -->
+  </div>
+</div>
+
+
+<div class="fixed-bottom">
+  <div class="btn-group" style="width:100%">
+    <button onclick="arrowButtonPress(1)" style="width:100%" class = "btn btn-primary work-btn glyphicon-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>
+    <button onclick="bottomNumberButtonPress(1)" style="width:100%" id = "work-time" class = "btn btn-primary work-btn">25</button>
+    <button onclick="arrowButtonPress(2)" style="width:100%" class = "btn btn-primary work-btn glyphicon-btn"><span class="glyphicon glyphicon-chevron-up"></span></button>
+    <button onclick="arrowButtonPress(3)" style="width:100%" class = "btn btn-primary break-btn glyphicon-btn "><span class="glyphicon glyphicon-chevron-down"></span></button>
+    <button onclick="bottomNumberButtonPress(2)" id = "break-time" style="width:100%" class = "btn btn-primary break-btn">5</button>
+    <button onclick="arrowButtonPress(4)" style="width:100%" class = "btn btn-primary break-btn glyphicon-btn"><span class="glyphicon glyphicon-chevron-up">        </span></button>
+  </div>
+</div>
+
+
+  <button type="button" onclick="timerButtonPress()" id = "main-clock" class="btn btn-primary main-clock">
+    <p>This is a pomodoro clock. <br> Use arrows to select time. <br> Click numbers to add to timer list. <br> Click the timer to start/stop (will appear here). <br> Click numbers on top to remove them. <br> To remove current timer, stop timer first. <br> Create the list you want!</p>
+  </button>
+ 
+ <!-- <button type="button" class="btn btn-remove"><span class="glyphicon glyphicon-circle-arrow-left"></span></button> -->
+
+<SCRIPT>
+//code written by Kate Norton 2017, all rights reserved
+var counterID = 0;
+var timerRunning = false;
+var myTimer;
+//what happens when bottom arrow buttons are pressed/held
+function arrowButtonPress(name) {
+  switch (name){
+    case 1: { //down arrow work
+      if (parseInt(document.getElementById("work-time").innerHTML) > 1){
+        document.getElementById("work-time").innerHTML = parseInt(document.getElementById("work-time").innerHTML) - 1;
+      }
+      break;
+    }
+    case 2: { //up arrow work
+      if (parseInt(document.getElementById("work-time").innerHTML) < 90){
+        document.getElementById("work-time").innerHTML = parseInt(document.getElementById("work-time").innerHTML) + 1;
+      }
+      break;
+    }
+    case 3: { //down arrow break
+       if (parseInt(document.getElementById("break-time").innerHTML) > 1){
+        document.getElementById("break-time").innerHTML = parseInt(document.getElementById("break-time").innerHTML) - 1;
+      }
+      break;
+    }
+    case 4: { //up arrow break
+       if (parseInt(document.getElementById("break-time").innerHTML) < 90){
+        document.getElementById("break-time").innerHTML = parseInt(document.getElementById("break-time").innerHTML) + 1;
+      }
+      break;
+    }
+  }
+}
+
+//function called when created top button is pressed
+function deleteItem(){
+  var parent = document.getElementById("timer-list");
+  var currentID = event.target.id;
+  var firstID = document.getElementById("timer-list").firstElementChild.id;
+  
+  if (firstID != currentID || firstID == currentID && timerRunning == false){
+    parent.removeChild(document.getElementById(currentID));
+    } 
+  
+  if (parent.childElementCount == 0) {
+    document.getElementById("main-clock").innerHTML = "00:00";
+  }
+  
+   if (timerRunning == false ){
+     if (document.getElementById("timer-list").firstElementChild.textContent.length != 4 && document.getElementById("timer-list").firstElementChild.textContent.length != 5 ) {
+     
+     document.getElementById("main-clock").innerHTML = document.getElementById("timer-list").firstElementChild.textContent + ":00";
+   } 
+  }}
+
+//what happens when work or rest button is pressed
+function bottomNumberButtonPress(name) {
+  document.getElementById("main-clock").style.fontSize = "800%";
+  switch (name){
+    case 1: { //work number
+      if (parseInt(document.getElementById("work-time").innerHTML) == 0) {
+        //if number on bottom is 0 do nothing
+      } else {
+        var buttonID = counterID;
+        var button = document.createElement("BUTTON");
+        var innerText = document.createTextNode(document.getElementById("work-time").innerHTML);
+        button.setAttribute("style", "width:100%");
+        button.setAttribute("class", "btn btn-primary work-btn");
+        button.setAttribute("onClick", "deleteItem()");
+        button.appendChild(innerText);
+        button.setAttribute("ID", buttonID);
+        counterID ++;
+        document.getElementById("timer-list").appendChild(button);
+         if (timerRunning == false){
+           
+           if (document.getElementById("timer-list").firstElementChild.textContent.length == 4 || document.getElementById("timer-list").firstElementChild.textContent.length == 5 ){
+            
+             break;
+           } else {
+           document.getElementById("main-clock").innerHTML = document.getElementById("timer-list").firstElementChild.textContent + ":00";
+             break;
+         }
+       
+        } else {
+          break;
+        }
+      }
+    }
+    case 2: { //rest number
+      if (parseInt(document.getElementById("break-time").innerHTML) == 0) {
+        break;
+      } else {
+        var buttonID = counterID;
+        var button = document.createElement("BUTTON");
+        var innerText = document.createTextNode(document.getElementById("break-time").innerHTML);
+        button.setAttribute("style", "width:100%");
+        button.setAttribute("class", "btn btn-primary break-btn");
+        button.setAttribute("onClick", "deleteItem()");
+        button.appendChild(innerText);
+        button.setAttribute("ID", buttonID);
+        counterID ++;
+        document.getElementById("timer-list").appendChild(button);
+        if (timerRunning == false){
+          
+          if (document.getElementById("timer-list").firstElementChild.textContent.length == 4 || document.getElementById("timer-list").firstElementChild.textContent.length == 5 ){
+             //do nothing;
+             break;
+           } else {
+          document.getElementById("main-clock").innerHTML = document.getElementById("timer-list").firstElementChild.textContent + ":00";
+        }
+        break;
+      }
+      }
+    }
+  }
+}
+
+//what happens when timer is pressed
+function timerButtonPress() {
+
+  
+  if (timerRunning == false) {
+    firstButtonClass = document.getElementById("timer-list").firstElementChild.getAttribute("class");
+    timerRunning = true;
+    
+    document.getElementById("main-clock").style.background = "ivory";
+    document.getElementById("main-clock").style.color = "black";
+    
+    
+    var arrayTime = (document.getElementById("main-clock").innerHTML).split(":");
+    var seconds = parseInt(arrayTime[1]) + parseInt(arrayTime[0] * 60);
+    myTimer = setInterval(function(){
+      seconds -= 1; 
+      
+      if (seconds == 0) {
+        //console.log("end!")
+        var audio = new Audio("http://katernorton.com/blog/wp-content/uploads/2018/01/front-desk-bells-daniel_simon.wav");
+        audio.play();
+        var id = document.getElementById("timer-list").firstElementChild.id;
+        var parent = document.getElementById("timer-list");
+        
+          if (parent.childElementCount>1) {
+            
+            parent.removeChild(document.getElementById(id));
+            var nextId = document.getElementById("timer-list").firstElementChild.id;
+            document.getElementById("main-clock").innerHTML = document.getElementById(nextId).textContent + ":00";
+            var arrayTime = (document.getElementById("main-clock").innerHTML).split(":");
+            seconds = parseInt(arrayTime[1]) + parseInt(arrayTime[0] * 60);
+          } else {
+            parent.removeChild(document.getElementById(id));
+            clearInterval(myTimer);
+            timerRunning = false;
+          }
+        
+      }
+      
+      
+      
+      
+      if (seconds%60 >= 10){
+      document.getElementById("main-clock").innerHTML = Math.floor(seconds/60) + ":" + seconds%60;
+      var firstButtonId = document.getElementById("timer-list").firstElementChild.id;
+      document.getElementById(firstButtonId).textContent = document.getElementById("main-clock").innerHTML;
+      } else {
+     
+      document.getElementById("main-clock").innerHTML = Math.floor(seconds/60) + ":" + "0" + seconds%60;
+      var firstButtonId = document.getElementById("timer-list").firstElementChild.id;
+      document.getElementById(firstButtonId).textContent = document.getElementById("main-clock").innerHTML;
+      }
+    }, 1000);
+    
+    
+  } else {
+    document.getElementById("main-clock").style.background = "grey";
+    document.getElementById("main-clock").style.color = "silver";
+    timerRunning = false;
+    //document.getElementById(firstId).setAttribute(firstButtonClass);
+    clearInterval(myTimer);
+  }
+}
+</SCRIPT>
+</BODY>
+

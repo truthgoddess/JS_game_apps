@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<TITLE>Simple Temperature by Kate Norton</TITLE>
+
+<STYLE>
+#city {
+  background-color: black;
+  font-family: sans-serif;
+  color: white;
+}
+
+#temperature {
+ background-color: black;
+ font-family: sans-serif;
+ color: white;
+}
+
+#weather {
+ background-color: black;
+ color: white;
+ font-family: sans-serif;
+ margin-bottom: 10px;
+}
+
+#tempid {
+  background-color: black;
+  color: white;
+}
+
+#icon {
+ background-color: black;
+ color: white;
+ font-family: sans-serif;
+}
+
+p {
+}
+
+.container {
+  border: 5px white;
+  max-width: 500px;
+  margin-top: 20%;
+  background: black;
+}
+
+body {
+  background: grey;
+  font-size: 150%;
+}
+</STYLE>
+</HEAD>
+
+<BODY>
+<div class = "container ">
+<div class = "row"; style = "background: white; font-size: 50%; font-weight: bold" ><div class = "col-sm-12 text-left" style = "margin-bottom : 5px">click temperature</div> </div>
+  <div class = "row" style = "border: 5px white; border-style: solid none none none">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4 text-center"><img id = "icon"></div>
+  <div class="col-sm-4"></div>
+</div>
+  <div class = "row" ; style = "border: 5px white; border-style: none none solid none">
+  <div class="col-sm-4 text-center" id = "city">City</div>
+  <div class="col-sm-4 text-center" onclick = "convert()"><p id = "temperature">Temp</p></div>
+  
+  <div class="col-sm-4 text-center" id = "weather">Weather</div>
+</div> <div class = "row"; style = "background: white; font-size: 50%; font-weight: bold  " ><div class = "col-sm-12 text-right" style = "margin-top : 5px">by Kate Norton</div> </div>
+
+
+</div>
+
+<SCRIPT>
+//global variables (limit use)
+var C = true; //true if C is current displayed, false if F
+
+//this is the section getting all the information from user and populating
+
+  $(document).ready(function() {
+   //get user location
+   $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
+   var xhReq = new XMLHttpRequest();
+   xhReq.open("GET", "https://fcc-weather-api.glitch.me/api/current?lat=" + data.latitude +"&lon=" + data.longitude, false);
+   xhReq.send(null);
+   var jsonObject = JSON.parse(xhReq.responseText);
+   //populate preplanned html div and img with temp, city, weather, icon
+   console.log(jsonObject);
+   document.getElementById("temperature").innerHTML = parseInt(jsonObject.main.temp) + " &#176C";
+   //document.getElementById("tempid").innerHTML = "C";
+   document.getElementById("city").innerHTML = data.city;
+   document.getElementById("weather").innerHTML = jsonObject.weather[0].main;
+   document.getElementById("icon").src = jsonObject.weather[0].icon;
+   });
+ }) 
+                   
+//end section with user info
+
+//functions needed
+function convert() { //convert C to F
+  console.log(C);
+  if (C == true){
+  var temp = parseInt(document.getElementById("temperature").innerHTML);
+ // document.getElementById("tempid").innerHTML = " F";
+  document.getElementById("temperature").innerHTML = parseInt( 9/5 * temp + 32) + " &#176F";
+  C = false;
+  } else {
+  var temp = parseInt(document.getElementById("temperature").innerHTML);
+ // document.getElementById("tempid").innerHTML = " C";
+  document.getElementById("temperature").innerHTML = parseInt(5/9 * (temp - 32)) + " &#176C";
+  C = true;
+  }
+}
+
+</SCRIPT>
+</BODY>
+

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css">
+<link href='https://fonts.googleapis.com/css?family=Codystar' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Happy Monkey' rel='stylesheet'>
+<TITLE>Tic-Tac-Toe Unbeatable by Kate Norton</TITLE>
+
+<STYLE>
+/* code and design by Kate Norton 2018 */
+
+body { 
+    background: white;
+    
+}
+
+.navbar {
+  background : black !important;
+  font-family: "Happy Monkey"
+}
+
+#x-btn {
+  background: #f9fafc;
+  border: 0px;
+  width: 160px;
+}
+
+#x-btn:hover {
+  background: #92a8d1 ;
+  
+}
+
+#x-btn:active {
+  background: black;
+}
+
+#o-btn {
+  background: #e9eef6;
+  border: 0px;
+  width: 160px;
+}
+
+#o-btn:hover {
+  background: #92a8d1 ;
+}
+
+#o-btn:active {
+  background: black;
+}
+
+#pvp-btn {
+  background: #d4dded;
+  border: 0px;
+  max-width: 160px;
+}
+
+#pvp-btn:hover {
+  background: #92a8d1 ;
+}
+
+#pvp-btn:active {
+  background: black;
+}
+
+.menu {
+  width: 100%;
+  background: black;
+  color: black;
+}
+
+.bottom-container {
+  margin-top: 100px;
+  max-width: 80%;
+  min-height: 50%;
+  background-color: ivory;
+  color: white;
+}
+
+.top-container {
+  max-width: 480px;
+  background-color: black;
+  color: white;
+}
+
+
+.btn-game {
+  font-family: 'Codystar';font-size: 50px;
+  min-height: 160px;
+  min-width: 33.3333%;
+  background: white ;
+  border-color: grey;
+  border-radius: 0px;
+}
+
+#box-1 {
+  border-top: 0px;
+  border-left: 0px;
+}
+
+#box-2 {
+  border-top: 0px;
+  border-left: 0px;
+}
+
+#box-3 {
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+}
+
+#box-4 {
+  border-left: 0px;
+  border-top: 0px;
+}
+
+#box-5 {
+  border-top:0px;
+  border-left: 0px;
+}
+
+#box-6 {
+  border-right: 0px;
+  border-top:0px;
+  border-left: 0px;
+}
+
+#box-7 {
+  border-left: 0px;
+  border-bottom: 0px;
+  border-top:0px;
+}
+
+#box-8 {
+  border-bottom: 0px;
+  border-top:0px;
+  border-left: 0px;
+}
+
+#box-9 {
+  border-right: 0px;
+  border-bottom: 0px;
+  border-top:0px;
+  border-left: 0px;
+}
+</STYLE>
+</HEAD>
+
+<BODY>
+
+
+<SCRIPT>
+/*code and design by Kate Norton 2018*/
+//namespace TTT to avoid global variables and functions
+var TTT = {
+  boardSound: new Audio("/sounds/one_pen_click.mp3"),
+  
+  menuSound: new Audio("/sounds/cowboy_spur_step.mp3"),
+  
+  //gamemode 0 is none, 1 x vs com, 2 o vs com, 3 pvp
+  gameMode: 0,
+  
+  //all possible winning game boards in regexp
+  winningGameStates: [/XXX\D\D\D\D\D\D/, /OOO\D\D\D\D\D\D/, /\D\D\DXXX\D\D\D/, /\D\D\DOOO\D\D\D/, /\D\D\D\D\D\DXXX/, /\D\D\D\D\D\DOOO/, /X\D\DX\D\DX\D\D/, /O\D\DO\D\DO\D\D/, /\DX\D\DX\D\DX\D/, /\DO\D\DO\D\DO\D/, /\D\DX\D\DX\D\DX/, /\D\DO\D\DO\D\DO/, /X\D\D\DX\D\D\DX/, /O\D\D\DO\D\D\DO/, /\D\DX\DX\DX\D\D/, /\D\DO\DO\DO\D\D/ ],
+  
+  //-1 is default(no win), number is number of array from winninggamestates that won
+  winningBoard: -1,
+  
+  gameInProgress: false,
+  
+  computerTurn: false,
+  
+  //currentTurn 1 = x's turn, 2 is o's turn, x goes first
+  currentTurn: 1,
+  
+  //0 for before game, 1 for turn one and so on
+  currentPlay: 0,
+  
+  //array will hold all game pieces that have already been played
+  spotsFilled:[],
+  
+  //returns true if square is filled, false if empty
+  
+  hasBeenPlayed: function(idtag){
+    
+    for (i = 0; i < this.spotsFilled.length; i++){
+      if (this.spotsFilled[i]==idtag) {
+        return true;
+      } 
+    }
+    return false;
+  },
+  
+  //how to style winning boxes on win condition
+  onWin: function(winningNumber) {
+    
+    //console.log("in one win function");
+    switch (winningNumber) {
+      
+      case 0: { //3x top row
+        document.getElementById("box-1").style.background = "#e4f4dc";
+        document.getElementById("box-2").style.background = "#e4f4dc";
+        document.getElementById("box-3").style.background = "#e4f4dc";
+        break; }
+      case 1: { //3o top row
+        document.getElementById("box-1").style.background = "#d5f1f2";
+        document.getElementById("box-2").style.background = "#d5f1f2";
+        document.getElementById("box-3").style.background = "#d5f1f2";
+        break;
+      }
+      case 2: {//3 x middle row
+        document.getElementById("box-4").style.background = "#e4f4dc";
+        document.getElementById("box-5").style.background = "#e4f4dc";
+        document.getElementById("box-6").style.background = "#e4f4dc";
+        break;
+      }
+      case 3: {//3o middle row
+        document.getElementById("box-4").style.background = "#d5f1f2";
+        document.getElementById("box-5").style.background = "#d5f1f2";
+        document.getElementById("box-6").style.background = "#d5f1f2";
+        break;
+      }
+      case 4: {//3x btm row
+        document.getElementById("box-7").style.background = "#e4f4dc";
+        document.getElementById("box-8").style.background = "#e4f4dc";
+        document.getElementById("box-9").style.background = "#e4f4dc";
+        break;
+      }
+        case 5: {//3o btm row
+        document.getElementById("box-7").style.background = "#d5f1f2";
+        document.getElementById("box-8").style.background = "#d5f1f2";
+        document.getElementById("box-9").style.background = "#d5f1f2";
+        break;
+      }
+        case 6: {//3x left col
+        document.getElementById("box-1").style.background = "#e4f4dc";
+        document.getElementById("box-4").style.background = "#e4f4dc";
+        document.getElementById("box-7").style.background = "#e4f4dc";
+        break;
+      }
+        case 7: {//3o left col
+        document.getElementById("box-1").style.background = "#d5f1f2";
+        document.getElementById("box-4").style.background = "#d5f1f2";
+        document.getElementById("box-7").style.background = "#d5f1f2";
+        break;
+      }
+        case 8: {//3x mid col
+        document.getElementById("box-2").style.background = "#e4f4dc";
+        document.getElementById("box-5").style.background = "#e4f4dc";
+        document.getElementById("box-8").style.background = "#e4f4dc";
+        break;
+      }
+        case 9: {//3o mid col
+        document.getElementById("box-2").style.background = "#d5f1f2";
+        document.getElementById("box-5").style.background = "#d5f1f2";
+        document.getElementById("box-8").style.background = "#d5f1f2";
+        break;
+      }
+        case 10: {//3x right col
+        document.getElementById("box-3").style.background = "#e4f4dc";
+        document.getElementById("box-6").style.background = "#e4f4dc";
+        document.getElementById("box-9").style.background = "#e4f4dc";
+        break;
+      }
+        case 11: {//3x right col
+        document.getElementById("box-3").style.background = "#d5f1f2";
+        document.getElementById("box-6").style.background = "#d5f1f2";
+        document.getElementById("box-9").style.background = "#d5f1f2";
+        break;
+      }
+        case 12: {//3x diag left to right
+        document.getElementById("box-1").style.background = "#e4f4dc";
+        document.getElementById("box-5").style.background = "#e4f4dc";
+        document.getElementById("box-9").style.background = "#e4f4dc";
+        break;
+      }
+        case 13: {//3o diag left to right
+        document.getElementById("box-1").style.background = "#d5f1f2";
+        document.getElementById("box-5").style.background = "#d5f1f2";
+        document.getElementById("box-9").style.background = "#d5f1f2";
+        break;
+      }
+        case 14: {//3x diag right to left
+        document.getElementById("box-3").style.background = "#e4f4dc";
+        document.getElementById("box-5").style.background = "#e4f4dc";
+        document.getElementById("box-7").style.background = "#e4f4dc";
+        break;
+      }
+        case 15: {//3x diag right to left
+        document.getElementById("box-3").style.background = "#d5f1f2";
+        document.getElementById("box-5").style.background = "#d5f1f2";
+        document.getElementById("box-7").style.background = "#d5f1f2";
+        break;
+      }
+      case 16:  {
+        for (i = 1; i < 10; i++){
+          document.getElementById("box-" + i).style.background = "#ffb3b3";
+          
+        }
+      }
+    }
+    
+  },
+  
+  clickBoard: function(boxId = event.target.id){
+    
+ 
+    if (this.hasBeenPlayed(boxId) == false){
+      
+      if (this.gameInProgress == true){
+        this.currentPlay += 1;
+
+        //this.hasBeenPlayed(boxId);
+        this.spotsFilled.push(boxId);
+
+          }
+
+
+        if (this.currentTurn == 1 && this.gameInProgress == true){
+          //console.log("placing an x");
+          this.boardSound.play();
+          this.boardSound.currentTime=0;
+          document.getElementById(event.target.id).innerHTML = "X";
+          this.currentTurn = 2;
+        } else if (this.currentTurn = 2 && this.gameInProgress == true) {
+          //console.log("placing an o");
+          this.boardSound.play();
+          this.boardSound.currentTime=0;
+          document.getElementById(event.target.id).innerHTML = "O";
+          this.currentTurn = 1
+        }
+
+        if (this.testBoardState() == true) {
+          //console.log("computer thinks board is complete");
+          this.gameInProgress = false;
+          this.onWin(this.winningBoard);
+        }
+
+        if (this.currentPlay == 10 && this.testBoardState() == false){
+          this.gameInProgress = false;
+          this.onWin(16);
+        }
+      
+        if ((this.gameMode==1 || this.gameMode==2) && this.computerTurn == true) {
+          var _this = this;
+          setTimeout(function() {_this.computerPlayTurnRandom();}, 100);
+          
+        }
+      }
+    
+  },
+
+  //returns array with X O and E for empty
+  boardIntoArray: function() {
+    var currentBoard = [];
+    
+    //push board into array
+    for (i = 1; i < 10; i++){
+      if (document.getElementById("box-" + i).innerHTML == "") {
+        currentBoard.push("E");
+      } else {
+        currentBoard.push(document.getElementById("box-" + i).innerHTML);
+      }
+    }
+    
+    return currentBoard;
+    
+  },
+  
+  testBoardState:function(array = this.boardIntoArray()){ //returns true if win, false if no win
+    var currentBoardString = array.join("");
+    
+    for (i = 0; i < this.winningGameStates.length; i++){
+      if (this.winningGameStates[i].test(currentBoardString) == true) {
+        this.winningBoard = i;
+        //console.log("maybe here?");
+        //this.onWin(this.winningBoard);
+        return true;
+      }
+    }
+    
+    return false;
+  },
+  
+  clearBoard:function(){
+    this.spotsFilled = [];
+    this.currentTurn = 1;
+    for (i = 1; i < 10; i++){
+      document.getElementById("box-" + i).innerHTML = "";
+      document.getElementById("box-" + i).style.background = "white";
+    }
+  },
+  
+  playX:function(){
+    
+    this.computerTurn = true;
+    this.gameMode = 1;
+    this.menuSound.play();
+    this.menuSound.currentTime=0;
+    this.currentPlay = 1;
+    this.gameInProgress = true;
+    this.clearBoard();
+    //document.getElementById("box-1").click();
+    
+  },
+  
+  playO:function(){
+    this.gameMode = 2;
+    this.menuSound.play();
+    this.menuSound.currentTime=0;
+    this.currentPlay = 1;
+    this.gameInProgress = true;
+    this.clearBoard();
+    this.computerPlayTurnRandom();
+    
+  },
+  
+  playPVP:function(){
+    this.gameMode = 3;
+    this.menuSound.play();
+    this.menuSound.currentTime=0;
+    this.currentPlay = 1;
+    this.gameInProgress = true;
+    this.clearBoard();
+  },
+  
+  //returns the square numbers that are empty in array form
+  findEmptySpaces:function(gameBoardArray = this.boardIntoArray()){
+    
+    var tempEmptySpots = [];
+    for (i = 0; i < gameBoardArray.length; i++){
+      if (gameBoardArray[i]=="E"){
+        tempEmptySpots.push(i+1);
+      }
+    }
+    return tempEmptySpots;
+  },
+  
+  //for computer to check if player is going to win next turn
+  willPlayerWin: function() {
+    
+      var possibleNextGameBoards2 = [];
+      var tempEmptySpaces2 = this.findEmptySpaces();
+    
+      if (this.currentTurn == 1){
+      //given current game board, what are all the possible next game boards for the player if computer didn't choose
+          for (k = 0; k < tempEmptySpaces2.length; k++){
+             var tempArray = this.boardIntoArray();
+             tempArray[tempEmptySpaces2[k] - 1] = "O";
+             possibleNextGameBoards2.push(tempArray); 
+          }
+            for (l = 0; l < possibleNextGameBoards2.length; l++){
+            if (this.testBoardState(possibleNextGameBoards2[l])){
+              return l;
+            }
+          }
+            return -1;
+       } else if (this.currentTurn == 2){
+      //given current game board, what are all the possible next game boards  
+      for (k = 0; k < tempEmptySpaces2.length; k++){
+         var tempArray = this.boardIntoArray();
+         tempArray[tempEmptySpaces2[k] - 1] = "X";
+         possibleNextGameBoards2.push(tempArray); 
+      }
+        for (l = 0; l < possibleNextGameBoards2.length; l++){
+        if (this.testBoardState(possibleNextGameBoards2[l])){
+          return l;
+        }
+      }
+        return -1;
+      }
+    
+  },
+  
+  //for computer to check if it can win this turn
+  isWinningTurn: function() {
+  
+      var possibleNextGameBoards = [];
+      var tempEmptySpaces = this.findEmptySpaces();
+      //for x's turn
+      if (this.currentTurn == 1){
+      //given current game board, what are all the possible next game boards  
+      for (k = 0; k < tempEmptySpaces.length; k++){
+         var tempArray = this.boardIntoArray();
+         tempArray[tempEmptySpaces[k] - 1] = "X";
+         possibleNextGameBoards.push(tempArray); 
+      }
+        for (l = 0; l < possibleNextGameBoards.length; l++){
+        if (this.testBoardState(possibleNextGameBoards[l])){
+          return l;
+        }
+      }
+        return -1;
+        
+        
+     
+      } else if (this.currentTurn == 2){
+      //given current game board, what are all the possible next game boards  
+      for (k = 0; k < tempEmptySpaces.length; k++){
+         var tempArray = this.boardIntoArray();
+         tempArray[tempEmptySpaces[k] - 1] = "O";
+         possibleNextGameBoards.push(tempArray); 
+      }
+        for (l = 0; l < possibleNextGameBoards.length; l++){
+        if (this.testBoardState(possibleNextGameBoards[l])){
+          return l;
+        }
+      }
+        return -1;
+      }
+      //now, test each possible next turn game board for a win, and if it is a win, choose it
+    },
+  
+  //returns boxID tag for open box
+  findOpenCorners: function() {
+    var cornerBoxes = ["box-1", "box-3", "box-7", "box-9"];
+    var openCorners = [];
+    for (k = 0; k < cornerBoxes.length; k++){
+      if(!this.hasBeenPlayed(cornerBoxes[k])){
+        openCorners.push(cornerBoxes[k]);
+       }
+    }
+    return openCorners;
+  },
+  
+  isCenterOpen: function() {
+    
+    if (this.hasBeenPlayed("box-5")){
+      return false;
+    } else {
+      return true;
+    }
+  },
+  
+  
+  computerPlayTurnRandom:function(){
+    
+    var gameBoardArray = this.boardIntoArray();
+    var emptySpots = this.findEmptySpaces(gameBoardArray);
+    //function only used during computer play, and used to determine before the computer makes its move if there is a winning move
+    //this.findOpenCorners();
+    
+    if (this.isWinningTurn() != -1){
+      
+      this.computerTurn = false;
+      document.getElementById("box-" + emptySpots[this.isWinningTurn()]).click();
+      this.computerTurn = true;
+    
+    } else {
+        if (this.willPlayerWin() != -1) {
+          
+          this.computerTurn = false;
+          var pressThisButton = emptySpots[this.willPlayerWin()];
+          document.getElementById("box-" + pressThisButton).click();
+          this.computerTurn = true;
+          
+        } else {
+          var cornerTags = this.findOpenCorners();
+          //console.log (cornerTags);
+          //if x's turn and there are empty corners
+            if (this.currentTurn == 1 && cornerTags.length > 0) { 
+              var pressThisButton = [Math.floor(Math.random() * (cornerTags.length - 1))]
+              this.computerTurn = false;
+              document.getElementById(cornerTags[pressThisButton]).click();
+              this.computerTurn = true;
+              //o choose center if available
+           } else if (this.isCenterOpen()){
+              //console.log("in here");
+              this.computerTurn = false;
+              document.getElementById("box-5").click();
+              this.computerTurn = true;
+           } else if (!this.isCenterOpen() && this.findOpenCorners().length > 0) {
+             var pressThisButton = [Math.floor(Math.random() * (cornerTags.length - 1))]
+              this.computerTurn = false;
+              document.getElementById(cornerTags[pressThisButton]).click();
+              this.computerTurn = true;
+
+           } else {
+             //choose randomly
+             //console.log(this.isCenterOpen());
+              var pressThisButton = [Math.floor(Math.random() * (emptySpots.length - 1) + 1)];
+
+              if (this.gameMode==2 && emptySpots.length == 1){
+                //turn off computer turn before computer click so function does recurse!!!!
+                this.computerTurn = false;
+                document.getElementById("box-" + emptySpots[0]).click();
+                this.computerTurn = true;
+              } else {
+                //turn off computer turn before computer click so function does recurse!!!!
+                this.computerTurn = false;
+                document.getElementById("box-" + emptySpots[pressThisButton]).click();
+                this.computerTurn = true;
+                }
+
+
+              }
+            }
+            }
+
+      },
+
+    
+  
+}
+</SCRIPT>
+
+
+<!--code and design by Kate Norton 2018-->
+
+<!-- links to google fonts used in game -->
+<link href='https://fonts.googleapis.com/css?family=Codystar' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Happy Monkey' rel='stylesheet'>
+
+<!--navbar shows at beginning of game, disappears during-->
+<nav class="navbar fixed-top navbar-dark bg-primary">
+  <div class = "container top-container">
+    <div class="btn-group menu" role="group" aria-label="Basic example">
+      <button onclick = "TTT.playX()" id ="x-btn" type="button " class="btn btn-secondary menu">Play X</button>
+      <button onclick = "TTT.playO()" id = "o-btn" type="button" class="btn btn-secondary menu">Play O</button>
+      <button onclick = "TTT.playPVP()" id = "pvp-btn" type="button" class="btn btn-secondary menu">Play PvP</button>
+    </div>
+  </div>
+</nav>
+
+<!-- main game board -->
+<div class = "container bottom-container">
+  <div class = "row"> 
+    <button onclick="TTT.clickBoard()" id = "box-1" type="button" class="btn btn-light btn-game">T</button>
+    <button onclick="TTT.clickBoard()" id = "box-2" type="button" class="btn btn-light btn-game">I</button>
+    <button onclick="TTT.clickBoard()" id = "box-3" type="button" class="btn btn-light btn-game">C</button>
+  </div>
+  
+  <div class = "row"> 
+    <button onclick="TTT.clickBoard()" id = "box-4" type="button" class="btn btn-light btn-game">T</button>
+    <button onclick="TTT.clickBoard()" id = "box-5" type="button" class="btn btn-light btn-game">A</button>
+    <button onclick="TTT.clickBoard()" id = "box-6" type="button" class="btn btn-light btn-game">C</button>
+  </div>
+  
+  <div class = "row"> 
+    <button onclick="TTT.clickBoard()" id = "box-7" type="button" class="btn btn-light btn-game">T</button>
+    <button onclick="TTT.clickBoard()" id = "box-8" type="button" class="btn btn-light btn-game">O</button>
+    <button onclick="TTT.clickBoard()" id = "box-9" type="button" class="btn btn-light btn-game">E</button>
+  </div>
+  
+</div>
+
+
+</BODY>
+

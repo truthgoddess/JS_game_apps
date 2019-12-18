@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.11.0/jsoneditor.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<TITLE>WikiPedia Search by Kate Norton</TITLE>
+
+<STYLE>
+.container {
+    max-width: 600px;
+}
+
+.card {
+  margin-top: 10px;
+  background-color: lightblue;
+}
+
+body {
+  background-color: gold;
+}
+
+
+/* unvisited link */
+a:link {
+    color: black;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px white; 
+}
+
+/* visited link */
+a:visited {
+    color: black;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px white; 
+}
+
+/* mouse over link */
+a:hover {
+    color: hotpink;
+}
+
+/* selected link */
+a:active {
+    color: blue;
+}
+
+
+
+
+</STYLE>
+</HEAD>
+
+<BODY>
+<div class="container">
+  <div class = "card" style = "font-weight: bold">
+   Quick WS by Kate Norton
+    </div>
+</div>
+
+
+<div class="container">
+  
+  <div class="card">
+  <div id = "random"><a href="https://en.wikipedia.org/wiki/Special:Random"  target = "_blank">Random Wiki</a></div> </div>
+   
+   
+ <div class = "card">
+      <span class="input-group-btn">
+        <button id="goButton" onclick = "wiki()" class="btn btn-secondary" type="button">Go!</button>
+      
+      <input type="text" class="form-control" id= "searchBox" placeholder="Search for something..."></span>
+    </div>
+    <div id = "results"></div>
+</div>
+ 
+  <!-- 
+<div class = "card"> 
+<input type="text" name="search" placeholder="Search..."> <button onclick="wikiSearch()">Search</button>
+       
+    </div>
+-->
+
+<SCRIPT>
+
+
+  function wiki () {
+    var myNode = document.getElementById("results");
+    var fc = myNode.firstChild;
+
+    while( fc ) {
+        myNode.removeChild( fc );
+        fc = myNode.firstChild;
+}
+    var searchString = document.getElementById('searchBox').value;
+    var wikiUrl = 'https://en.wikipedia.org//w/api.php' +
+        '?callback=?' +
+        '&action=opensearch' +
+        '&format=json' +
+        '&profile=fuzzy' +
+        '&limit=10' +
+        '&prop=imageinfo&format=json&iiprop=urll' +
+        '&search=' +
+        encodeURI(searchString);
+
+    $.getJSON(wikiUrl, function(data) {
+      
+      if (data[1][1] == undefined){
+        //console.log(data[1][1]);
+        var node = document.createElement("p");
+        //console.log(node);
+        node.className = "card";
+        var textnode = document.createTextNode("Your search didn't turn up any results. Try searching for something real. Or, if you did search for something real, and what I just said got you angry, take a few moments to breathe, and recognize that computers are not perfect, I am not perfect, and I'm just learning how to do this, so try and search for something that might ease your mind and be found everywhere.");;
+        node.appendChild(textnode);
+        //console.log(node);
+      //console.log(data);
+        document.getElementById("results").appendChild(node);
+      }
+      //the html is in [3][x]
+      for (j = 1; j < 6; j++) {
+      for (i = 1; i <3 ; i++) {
+        
+        
+        if (i == 2 && data[i][j] !== undefined){
+      var node = document.createElement("DIV");
+      node.className = 'card';
+      var textnode = document.createTextNode(data[i][j]);
+      node.appendChild(textnode);
+      //console.log(data);
+      document.getElementById("results").appendChild(node);
+        } else if (i==1 && data[i][j] !== undefined) {
+      
+      var node = document.createElement("a");
+      node.className = 'card';
+      var textnode = document.createTextNode(data[i][j]);
+      //console.log(data[3][j]);
+      node.setAttribute('href', "" + data[3][j]);
+      node.setAttribute('target', "_blank");
+      node.appendChild(textnode);
+      
+      //console.log(data);
+      document.getElementById("results").appendChild(node);
+      
+        }
+      }}
+    });
+  };
+
+
+
+</SCRIPT>
+</BODY>
+

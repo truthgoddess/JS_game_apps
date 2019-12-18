@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css">
+<TITLE>Happiness Machine by Kate Norton</TITLE>
+
+<STYLE>
+.container-fluid{
+  max-width: 600px;
+  color: blue;
+}
+
+.container {
+  max-width: 600px;
+  padding: 0px;
+}
+
+.row {
+  background: #CB8589;
+  border: 5px solid white;
+  border-top: 5px solid white;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+h2{
+ 
+  color: white;
+  font-family: sans-serif;
+  
+}
+p {
+  color: black;
+  font-size: 20;
+}
+
+body {
+	padding: 3rem;
+	font-size: 1.125rem;
+	line-height: 1.5;
+	transition: all 725ms ease-in-out;
+  background: #DDE8B9;
+}
+
+h2{
+  color: white;
+}
+
+#tweet-button {
+  margin-left: 0px;
+}
+
+</STYLE>
+</HEAD>
+<BODY>
+
+<div class= "container-fluid">
+  <div class="row">
+    <div class = "col-xs-12">
+    <p id = "quotetitle" style = "font-weight: bold">Press the button below until you get a practice exercise you want to work with.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class = "col-xs-12">
+    <p id = "advice" class = "message">Work with that exercise for one day.</p>
+  </div>
+  </div>
+  <div class="row">
+    <div class = "col-xs-12">
+<button type = "button" class = "btn btn-info" id = "onlyButton" onclick="randomQuote()"> Have fun! </button>
+</div>
+  </div></div>
+<p align = "center" style = "font-size: 50%">code, writing, and design by Kate Norton &copy; 2017 </p>
+
+<div class="container"><button id= "tweet-button" class = "btn btn-info" onclick="tweetIt()">Tweet it!</button></div>
+
+<SCRIPT>
+var topics = ["Develop Wisdom", "Develop Compassion", "Develop Ethics"]
+var wisdomExercises = ["Read a book today when you normally would waste time.", "Have a deep conversation with someone.", "Sit still and think about thinking for 5 minutes.", "While eating, contemplate where all your food came from.", "Spend twenty minutes writing about your day and read it one week later.", "Today, accept two things that you cannot change, and change two things that you can.", "Find one inspirational quote or idea, and contemplate it during the day."];
+var compassionExercises = ["Today, whenever you see an animal or a bug, greet them mentally or verbally.", "Pick a person you think is different from you, and think about your similarities.", "Think about all the people you love, and add two more people to that list.", "Give yourself a hug and tell yourself that you love you.", "A few times today, touch your heart and tell yourself you are perfect as you are.", " Look at other people today and contemplate the suffering you cannot see."];
+var ethicsExercises = ["Do not kill any bugs today.", "Speak up when you know something is wrong.", "Give up/back something you took or are taking that wasn't given to you.", "Tell the truth all day."];
+var btnPressed = false;
+
+var randomQuote = function() {
+  btnPressed = true;
+  var currentTopicCell = Math.floor(Math.random() * 3 );
+  document.getElementById("quotetitle").innerHTML = topics[currentTopicCell];
+
+  if (currentTopicCell == 0){
+    document.getElementById("advice").innerHTML = wisdomExercises[Math.floor(Math.random() * wisdomExercises.length)];
+  } else if (currentTopicCell == 1) {
+    document.getElementById("advice").innerHTML = compassionExercises[Math.floor(Math.random() * compassionExercises.length)];
+  } else if (currentTopicCell == 2) {
+    document.getElementById("advice").innerHTML = ethicsExercises[Math.floor(Math.random() * ethicsExercises.length)];
+  }
+}
+
+function tweetIt () {
+  if (btnPressed == true){
+  var advice = document.getElementById('advice').innerText;
+  var topic = document.getElementById('quotetitle').innerText;
+  var tweetUrl = 'https://twitter.com/share?text=' +
+    encodeURIComponent(topic) + ': ' +
+    encodeURIComponent(advice) +
+    '&url=' +
+    'http://katernorton.com/programs/happiness_machine';
+    
+  window.open(tweetUrl);}
+  
+  else {
+    var advice = "to develop compassion, wisdom, and ethics!";
+    var topic = "Check out this website ";
+    var tweetUrl = 'https://twitter.com/share?text=' +
+    encodeURIComponent(topic) + 
+    encodeURIComponent(advice) +
+    '&url=' +
+    'https://codepen.io/proposal1220/full/ppodLL';
+    
+  window.open(tweetUrl);
+    
+  }
+}
+
+
+</SCRIPT>
+</BODY>
+
