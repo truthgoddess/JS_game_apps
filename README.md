@@ -5,4 +5,6 @@ I developed many of these as part of my training on FreeCodeCamp. Any advice or 
 
 You can use this to preview the files: https://htmlpreview.github.io/
 
-If the program isn't working properly there, try it on katernorton.com/programming
+If the program isn't working properly there, try it on http://www.katernorton.com/programming
+
+Have a great day!
