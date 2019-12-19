@@ -5,27 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css">
 <TITLE>Pomodoro Timer by Kate Norton</TITLE>
-
 <STYLE>
-/* code written by Kate Norton 2017, all rights reserved */
-
 @import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
 
 body {
-  background: ivory;
-  
+  background: ivory; 
 }
 
 .btn-group{
   background: ivory;
-  
 }
 
 .work-btn {
   background: cornflowerblue;
   font-size: 200%;
   border: none !important;
-  
 }
 
 .break-btn {
@@ -50,7 +44,6 @@ body {
   font-size: 100%;
   color: black;
   border: none !important;
-  
 }
 
 .glyphicon-btn {
@@ -61,20 +54,15 @@ body {
   background: ivory !important;
 }
 
-
 </STYLE>
 </HEAD>
-
 <BODY>
 <!-- code written by Kate Norton 2017, all rights reserved -->
-
 <div class="fixed-top bg-primary">
   <div class="btn-group" id = "timer-list" style="width:100%">
     <!-- buttons will go here -->
   </div>
 </div>
-
-
 <div class="fixed-bottom">
   <div class="btn-group" style="width:100%">
     <button onclick="arrowButtonPress(1)" style="width:100%" class = "btn btn-primary work-btn glyphicon-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>
@@ -85,16 +73,11 @@ body {
     <button onclick="arrowButtonPress(4)" style="width:100%" class = "btn btn-primary break-btn glyphicon-btn"><span class="glyphicon glyphicon-chevron-up">        </span></button>
   </div>
 </div>
-
-
   <button type="button" onclick="timerButtonPress()" id = "main-clock" class="btn btn-primary main-clock">
     <p>This is a pomodoro clock. <br> Use arrows to select time. <br> Click numbers to add to timer list. <br> Click the timer to start/stop (will appear here). <br> Click numbers on top to remove them. <br> To remove current timer, stop timer first. <br> Create the list you want!</p>
   </button>
- 
  <!-- <button type="button" class="btn btn-remove"><span class="glyphicon glyphicon-circle-arrow-left"></span></button> -->
-
 <SCRIPT>
-//code written by Kate Norton 2017, all rights reserved
 var counterID = 0;
 var timerRunning = false;
 var myTimer;
@@ -137,11 +120,9 @@ function deleteItem(){
   if (firstID != currentID || firstID == currentID && timerRunning == false){
     parent.removeChild(document.getElementById(currentID));
     } 
-  
   if (parent.childElementCount == 0) {
     document.getElementById("main-clock").innerHTML = "00:00";
   }
-  
    if (timerRunning == false ){
      if (document.getElementById("timer-list").firstElementChild.textContent.length != 4 && document.getElementById("timer-list").firstElementChild.textContent.length != 5 ) {
      
@@ -168,15 +149,12 @@ function bottomNumberButtonPress(name) {
         counterID ++;
         document.getElementById("timer-list").appendChild(button);
          if (timerRunning == false){
-           
            if (document.getElementById("timer-list").firstElementChild.textContent.length == 4 || document.getElementById("timer-list").firstElementChild.textContent.length == 5 ){
-            
              break;
            } else {
            document.getElementById("main-clock").innerHTML = document.getElementById("timer-list").firstElementChild.textContent + ":00";
              break;
          }
-       
         } else {
           break;
         }
@@ -197,7 +175,6 @@ function bottomNumberButtonPress(name) {
         counterID ++;
         document.getElementById("timer-list").appendChild(button);
         if (timerRunning == false){
-          
           if (document.getElementById("timer-list").firstElementChild.textContent.length == 4 || document.getElementById("timer-list").firstElementChild.textContent.length == 5 ){
              //do nothing;
              break;
@@ -213,30 +190,22 @@ function bottomNumberButtonPress(name) {
 
 //what happens when timer is pressed
 function timerButtonPress() {
-
-  
   if (timerRunning == false) {
     firstButtonClass = document.getElementById("timer-list").firstElementChild.getAttribute("class");
     timerRunning = true;
-    
     document.getElementById("main-clock").style.background = "ivory";
     document.getElementById("main-clock").style.color = "black";
-    
-    
     var arrayTime = (document.getElementById("main-clock").innerHTML).split(":");
     var seconds = parseInt(arrayTime[1]) + parseInt(arrayTime[0] * 60);
     myTimer = setInterval(function(){
       seconds -= 1; 
-      
       if (seconds == 0) {
         //console.log("end!")
         var audio = new Audio("http://katernorton.com/blog/wp-content/uploads/2018/01/front-desk-bells-daniel_simon.wav");
         audio.play();
         var id = document.getElementById("timer-list").firstElementChild.id;
         var parent = document.getElementById("timer-list");
-        
           if (parent.childElementCount>1) {
-            
             parent.removeChild(document.getElementById(id));
             var nextId = document.getElementById("timer-list").firstElementChild.id;
             document.getElementById("main-clock").innerHTML = document.getElementById(nextId).textContent + ":00";
@@ -247,25 +216,17 @@ function timerButtonPress() {
             clearInterval(myTimer);
             timerRunning = false;
           }
-        
       }
-      
-      
-      
-      
       if (seconds%60 >= 10){
       document.getElementById("main-clock").innerHTML = Math.floor(seconds/60) + ":" + seconds%60;
       var firstButtonId = document.getElementById("timer-list").firstElementChild.id;
       document.getElementById(firstButtonId).textContent = document.getElementById("main-clock").innerHTML;
       } else {
-     
       document.getElementById("main-clock").innerHTML = Math.floor(seconds/60) + ":" + "0" + seconds%60;
       var firstButtonId = document.getElementById("timer-list").firstElementChild.id;
       document.getElementById(firstButtonId).textContent = document.getElementById("main-clock").innerHTML;
       }
     }, 1000);
-    
-    
   } else {
     document.getElementById("main-clock").style.background = "grey";
     document.getElementById("main-clock").style.color = "silver";
@@ -276,4 +237,3 @@ function timerButtonPress() {
 }
 </SCRIPT>
 </BODY>
-
