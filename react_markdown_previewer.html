@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  
+  <title>Markdown Previewer</title>
+  <style>
+      html, body {
+  background: grey;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+  box-sizing:border-box;
+  width: 100%;
+  height: 100%;
+}
+
+#outer {
+  width: 100%;
+  height: 100%;
+}
+
+#topBanner {
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  background: lightblue;
+}
+
+#previewWindow {
+  float: left;
+  width: 49%;
+  border-style: solid;
+  background: white;
+  min-height: 100vh;
+}
+
+#textArea {
+  float: left;
+  width: 49%;
+  height: 100vh;
+}
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js'></script>
+
+<div id = "outer">
+  <div id = "topBanner">
+    Markdown Previewer
+  </div>
+  <div id = "app">
+  </div>
+</div>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.17/marked.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script><script  src="./script.js"></script>
+<script>
+    class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      info: 'Use equals below a line to make an h1\n============\n\nUse minus signs to make an h2\n---------------\n\nBlank line for paragraphs.\n\n*Italic*, **bold**, and `monospace`, ~~strikethrough~~ are that you see\n\n~~~\nvar hello = function() {\n\tconsole.log(\"Hello from a function!\");\n}\n~~~\nA list:\n\n* Hello\n* From\n* Neptune\n\n*[Here is a link to my website!](https://www.katernorton.com)*\n' };
+
+
+    this.updatePreview = this.updatePreview.bind(this);
+  }
+
+  updatePreview(event) {
+
+    this.setState({
+      info: event.target.value });
+
+  }
+
+  render() {
+
+    return (
+      React.createElement("div", null,
+      React.createElement("div", { id: "textArea" }, React.createElement("textarea", { onChange: this.updatePreview }, "Use equals below a line to make an h1\n============\n\nUse minus signs to make an h2\n---------------\n\nBlank line for paragraphs.\n\n*Italic*, **bold**, and `monospace`, ~~strikethrough~~ are that you see\n\n~~~\nvar hello = function() {\n\tconsole.log(\"Hello from a function!\");\n}\n~~~\nA list:\n\n* Hello\n* From\n* Neptune\n\n*[Here is a link to my website!](https://www.katernorton.com)*\n")),
+      React.createElement(PreviewWindow, { windowStuff: this.state.info })));
+
+
+  }}
+
+
+
+class PreviewWindow extends React.Component {
+  render() {
+
+    const output = marked(this.props.windowStuff);
+
+    return (
+      React.createElement("div", { id: "previewWindow", dangerouslySetInnerHTML: {
+          __html: output } }));
+
+
+  }}
+
+
+ReactDOM.render(
+React.createElement(App, null),
+document.getElementById("app"));
+</script>
+</body>
+</html>
