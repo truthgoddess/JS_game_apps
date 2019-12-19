@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css">
+<TITLE>Name of Program</TITLE>
+
+<STYLE>
+#left_column {
+  background: mistyrose;
+  width: 650px;
+  padding: 10px
+}
+
+#right_column {
+  padding: 10px;
+}
+
+.container {
+  display: flex;
+  padding: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+  #left_column {
+    display: none;
+  }
+}
+</STYLE>
+</HEAD>
+
+<BODY>
+<div class="container">
+<div id="left_column">
+  <nav id="navbar">
+    <header><h1>Beg Prog Documentation</h1></header>
+    <a class = "nav-link" href="#Basic_Math_and_Logic_for_Programming">Basic Math and Logic for Programming</a><br>
+    <a class = "nav-link" href="#Computers_Are_Stupid_Tell_Them_Everything">Computers are Stupid Tell Them Everything</a><br>
+    <a class = "nav-link" href="#Thought_Parking_Variables">Thought Parking Variables</a><br>
+    <a class = "nav-link" href="#Directions_for_Later_Functions">Directions for Later Functions</a><br>
+    <a class = "nav-link" href="#So_Little_Done_So_Much_Time">So Little Done So Much Time</a><br>
+  </nav>
+</div>
+<div id="right_column"><main id="main-doc">
+  <section id="Basic_Math_and_Logic_for_Programming" class="main-section">
+    <header><h1>Basic Math and Logic for Programming</h1></header>
+    <p>Not all math classes teach the basic ideas or skills necessary to make programming easy to pick up. Algebra may have been a long time ago (or not yet!) or we don't connect basic patterns of speech or thinking to the programming that we do.</p>
+    <p>Well, it's time to change all that!</p>
+  </section>
+  <section id="Computers_Are_Stupid_Tell_Them_Everything" class="main-section">
+    <header><h3>Computers are Stupid Tell Them Everything</h3></header>
+    <p>There's nothing in this world as stupid as a computer. We don't normally think about computers that way, so when we learn programming, we can be shocked to find that our programs aren't doing what we want them to do. There's nothing on this planet that can do so much, but requires hand holding to get to each step of the way. Computers are like a toddler you have to teach to walk every step, think every thought, do every task.</p>
+    <p>So, first things first. Get ready to have to tell your program EVERYTHING. If you there is one thought that your program hasn't thought, you probably have to write it. </p>
+  </section>
+  <section id="Thought_Parking_Variables" class="main-section">
+    <header><h3>Thought Parking Variables</h3></header>
+    <p> If you know algebra, then much of programming will make sense to you. If you don't know it, or you've forgotten it, a couple of ideas can help you get ready.</p>
+    <p>Imagine for a moment that you want to remember an important birthday. You write that birthday on a green sticky note and stick it to a mirror. You call that note "my green reminder" and the words on "my green reminder" are "Regina's birthday - 12/15!!!!!".</p>
+    <p>Later, while having dinner with your friend at home, you find that you have forgotten Regina's birthday again! You ask your friend if she remembers, and she says she doesn't, but wants to know. You tell her that location ("mirror"), the kind of thing to look for ("sticky note"), and ask her to go and get the birthday. She does, and yells from the mirror, "December 15th!"</p>
+    <p>This is pretty much the same thing as this:</p>
+    <code>var greensticky = "Regina's birthday - 12/15!!!";</code><br>
+    <code>var friendreminder = greensticky;</code>
+    <p>That is Javascript, and it is not dissimilar to many types of computer code you might encounter. In this case, the location where the greensticky is placed is not on a mirror, but in a specific piece of computer memory. Instead of there being an actual piece of green sticky paper, the piece of memory where the information will be stored will be called "greensticky." But "greensticky" contains the same text that our previous green sticky did: "Regina's birthday - 12/15!!!" So it's like we are writing our note on a bit of computer memory instead of paper.</p>
+    <p>We do this for the same reason we put things on sticky notes: to remember it later. That's what the second line of code is all about. It is our friend, going to the location of our green sticky note and getting the information about Regina's birthday to bring back to us. What do you think the code would look like if our virtual friend gave the information she found back to us? Did you guess this?</p> 
+    <code>var usTheProgrammer = friendreminder;</code>
+    <p>Or something like it?</p>
+  </section>
+  <section id ="Directions_for_Later_Functions" class="main-section">
+    <header><h3>Directions for Later Functions<h3></header>
+    <p>Let's say that you are housesitting for a friend, and your friend has left you a note:</p>
+    <p>
+    <ul>
+      <li>There is plenty of food in the fridge. If you are hungry, eat that first!</li>
+      <li>The cats get fed at 8am and 6pm. Give them half a can (with water) each at those times.</li>
+      <li>If the AC starts clicking, either watch the cats hunt it (if you are in a good mood), or tap it lightly and it will stop.</li>
+      <li>If my neighbor calls with the tracking id of the package they sent to me where I am, can you call me and tell me what it is?</li>
+      <li>If I get any mail that seems important, just send a photo of it to me by text, ok?</li>
+    </ul>
+    </p>
+  <p>Consider two things: the first is the note right after your friend wrote it; the second, when you read it for the first time.</p>
+  <p>First, when your friend first finishes that note, he leaves it somewhere and tells you where to find it. It contains instructions for what you should do, but isn't doing anything because you aren't there, haven't seen it, and don't know what it says.</p>
+  <p>Second, when you see the note for the first time, you get some information. You now know a little bit about what you are supposed to do in what circumstances. You don't immediately feed the cats, or tap the AC or start sending photos of mail. You simply have knowledge about the instructions that are there and when to start doing them. Later, when the conditions are right, you'll follow the instructions, but only then. Instructions are just instructions. They don't do anything until the situation arises in which the instructions need to be followed.</p>
+  <p>Functions in programming are like that. They are instructions written for later. They may look like they are active, running, moving pieces of code, but they aren't. They are there for any part of a program that needs to use that, and are only followed when the conditions are right.</p>
+  <code>function feedCats{<br>&nbsp&nbsp&nbsp//insert code here<br>}</code><br><br>
+  <code>function checkmail{<br>&nbsp&nbsp&nbsp//insert code here<br>}</code>
+  <p>The details of what the code instructions are up to you! But functions are not active until they are called:</p>
+  <code>feedCats();</code>
+  <p>That small bit of code is an example of something that tells the program to actually feed the cats! For a while it was just instructions, waiting, but typing something like that in your code is going to be like you actually looking at the instructions, getting the food from the refrigerator, putting water in it, and giving it to the cats. For a long time those instructions didn't do anything, but then at 8am they did!</p>
+  </section>
+  <section id = "So_Little_Done_So_Much_Time" class="main-section">
+    <header><h3>So Little Done So Much Time</h3></header>
+    <p>Because our devices run programs so fast that we can't see it, we come to expect that programming those devices is that simple, and takes as little time. Many of us when we first learn programming can be shocked at how long it takes to make such fast moving simple useful programs. It is quite amazing what they can do, but be patient!</p>
+    <p>Good luck, and have fun!</p>
+  </section>
+    </main>
+  </div>
+  </div>
+
+<SCRIPT>
+
+</SCRIPT>
+</BODY>
+
