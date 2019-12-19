@@ -47,7 +47,6 @@ table {
 }
 </STYLE>
 </HEAD>
-
 <BODY>
 <nav class="navbar navbar-dark bg-dark text-light">
   <!-- Navbar content -->Some of my favorite Twitch streamers. ---- Code & design & personal favorites by Kate Norton
@@ -60,27 +59,19 @@ table {
   </tbody>
 </table>
 </div>
-
-
 <SCRIPT>
 /////twitch users we care about built into array form
-
 //orginal array is input here, one looks like [name, streamID, API current status, twitch web address, API channel information]
 var twitchUsers = [["TrumpSC", "210229393"], ["AMAZHS", "AMAZHS"], ["Zetalot","209720405"], ["JustSomeRandomGuy", "210213138"], ["Day9tv", "Day9tv"], ["sjow", "sjow"], ["freecodecamp","freecodecamp"], ["moonmoon_ow", "moonmoon_ow"]];
-
 //auto build api address for use with JSON call and web (addresses are long and would by ugly to see above)
 for (i = 0; i < twitchUsers.length; i++){
   twitchUsers[i][2] = "https://wind-bow.glitch.me/twitch-api/streams/" +   twitchUsers[i][1];
   twitchUsers[i][3] = "https://www.twitch.tv/" + twitchUsers[i][1];
   twitchUsers[i][4] = "https://wind-bow.glitch.me/twitch-api/channels/" +   twitchUsers[i][0];
 }
-
-
 //////list of functions//////
-
 //take array and build basic html elements with placeholders
 function buildStreamers (){
-  
   for (i = 0; i < twitchUsers.length; i++){
   var table = document.getElementById("streamerTable");
   var row = table.insertRow(i);
@@ -88,7 +79,6 @@ function buildStreamers (){
   var cell1 = row.insertCell(0);
   var cell2 = row.insertCell(1);
   var cell3 = row.insertCell(2);
-  
   cell1.innerHTML = "<img width = '25' height = '25' src='http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_150x150.png' alt='hello'/ >";
   cell2.innerHTML = "<a href=https://www.twitch.tv/"+ twitchUsers[i][0] +" target = '_blank'>" + twitchUsers[i][0] + "</a>";
   cell3.innerHTML = "searching...";
@@ -104,22 +94,16 @@ function giveChannelKey (whatStream){
   return twitchUsers[whatStream][4];
 }
 
-
 //function that contains the JSON call to update online status and channel link
 function updateOnlineStatus(streamerNumber) {
   $.getJSON(giveStreamKey(streamerNumber), function(data){
-    //console.log(data._links.self);
-    
-   
-    
+    //console.log(data._links.self);    
     if (data.stream == null) {
       var x = document.getElementById("streamerTable").rows[streamerNumber].cells;
-      //var y = document.getElementById("row0");
-      
+      //var y = document.getElementById("row0");   
       var y = document.getElementById("row" + streamerNumber);
       y.style.backgroundColor = "navy";
       x[2].innerHTML = "<p>offline</p>" ;
-
     } else {
       var x = document.getElementById("streamerTable").rows[streamerNumber].cells;
       var y = document.getElementById("row" + streamerNumber);
@@ -133,33 +117,18 @@ function updateOnlineStatus(streamerNumber) {
 function updateStreamerLogo(streamerNumber) {
   $.getJSON(giveChannelKey(streamerNumber), function(data){
     var x = document.getElementById("streamerTable").rows[streamerNumber].cells;
-    x[0].innerHTML = "<img src=" + data.logo + " width = '50' height = '50' >";
-    
-    
+    x[0].innerHTML = "<img src=" + data.logo + " width = '50' height = '50' >";    
   });
 }
 
 /////////////the program/////////////
 
 buildStreamers();
-
 for (i = 0; i < twitchUsers.length; i++ ){
   updateOnlineStatus(i);
 }
-
 for (i = 0; i < twitchUsers.length; i++ ){
   updateStreamerLogo(i);
 }
-
-
-//what I need to do
-//make second cell a link
-//make color if online different than if offline
-
-
-  
-
-
 </SCRIPT>
 </BODY>
-
