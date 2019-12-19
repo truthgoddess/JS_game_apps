@@ -39,9 +39,6 @@
  font-family: sans-serif;
 }
 
-p {
-}
-
 .container {
   border: 5px white;
   max-width: 500px;
@@ -70,16 +67,12 @@ body {
   
   <div class="col-sm-4 text-center" id = "weather">Weather</div>
 </div> <div class = "row"; style = "background: white; font-size: 50%; font-weight: bold  " ><div class = "col-sm-12 text-right" style = "margin-top : 5px">by Kate Norton</div> </div>
-
-
 </div>
 
 <SCRIPT>
 //global variables (limit use)
 var C = true; //true if C is current displayed, false if F
-
 //this is the section getting all the information from user and populating
-
   $(document).ready(function() {
    //get user location
    $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
@@ -98,7 +91,6 @@ var C = true; //true if C is current displayed, false if F
  }) 
                    
 //end section with user info
-
 //functions needed
 function convert() { //convert C to F
   console.log(C);
@@ -117,4 +109,3 @@ function convert() { //convert C to F
 
 </SCRIPT>
 </BODY>
-
