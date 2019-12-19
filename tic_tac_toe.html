@@ -9,11 +9,8 @@
 <TITLE>Tic-Tac-Toe Unbeatable by Kate Norton</TITLE>
 
 <STYLE>
-/* code and design by Kate Norton 2018 */
-
 body { 
-    background: white;
-    
+    background: white;   
 }
 
 .navbar {
@@ -29,7 +26,6 @@ body {
 
 #x-btn:hover {
   background: #92a8d1 ;
-  
 }
 
 #x-btn:active {
@@ -83,7 +79,6 @@ body {
   background-color: black;
   color: white;
 }
-
 
 .btn-game {
   font-family: 'Codystar';font-size: 50px;
@@ -146,7 +141,6 @@ body {
 }
 </STYLE>
 </HEAD>
-
 <BODY>
 
 
@@ -155,35 +149,23 @@ body {
 //namespace TTT to avoid global variables and functions
 var TTT = {
   boardSound: new Audio("/sounds/one_pen_click.mp3"),
-  
   menuSound: new Audio("/sounds/cowboy_spur_step.mp3"),
-  
   //gamemode 0 is none, 1 x vs com, 2 o vs com, 3 pvp
   gameMode: 0,
-  
   //all possible winning game boards in regexp
   winningGameStates: [/XXX\D\D\D\D\D\D/, /OOO\D\D\D\D\D\D/, /\D\D\DXXX\D\D\D/, /\D\D\DOOO\D\D\D/, /\D\D\D\D\D\DXXX/, /\D\D\D\D\D\DOOO/, /X\D\DX\D\DX\D\D/, /O\D\DO\D\DO\D\D/, /\DX\D\DX\D\DX\D/, /\DO\D\DO\D\DO\D/, /\D\DX\D\DX\D\DX/, /\D\DO\D\DO\D\DO/, /X\D\D\DX\D\D\DX/, /O\D\D\DO\D\D\DO/, /\D\DX\DX\DX\D\D/, /\D\DO\DO\DO\D\D/ ],
-  
   //-1 is default(no win), number is number of array from winninggamestates that won
   winningBoard: -1,
-  
   gameInProgress: false,
-  
   computerTurn: false,
-  
   //currentTurn 1 = x's turn, 2 is o's turn, x goes first
   currentTurn: 1,
-  
   //0 for before game, 1 for turn one and so on
   currentPlay: 0,
-  
   //array will hold all game pieces that have already been played
   spotsFilled:[],
-  
   //returns true if square is filled, false if empty
-  
   hasBeenPlayed: function(idtag){
-    
     for (i = 0; i < this.spotsFilled.length; i++){
       if (this.spotsFilled[i]==idtag) {
         return true;
@@ -194,10 +176,8 @@ var TTT = {
   
   //how to style winning boxes on win condition
   onWin: function(winningNumber) {
-    
     //console.log("in one win function");
     switch (winningNumber) {
-      
       case 0: { //3x top row
         document.getElementById("box-1").style.background = "#e4f4dc";
         document.getElementById("box-2").style.background = "#e4f4dc";
@@ -296,27 +276,18 @@ var TTT = {
       case 16:  {
         for (i = 1; i < 10; i++){
           document.getElementById("box-" + i).style.background = "#ffb3b3";
-          
         }
       }
-    }
-    
+    } 
   },
   
   clickBoard: function(boxId = event.target.id){
-    
- 
     if (this.hasBeenPlayed(boxId) == false){
-      
       if (this.gameInProgress == true){
         this.currentPlay += 1;
-
         //this.hasBeenPlayed(boxId);
         this.spotsFilled.push(boxId);
-
           }
-
-
         if (this.currentTurn == 1 && this.gameInProgress == true){
           //console.log("placing an x");
           this.boardSound.play();
@@ -330,31 +301,24 @@ var TTT = {
           document.getElementById(event.target.id).innerHTML = "O";
           this.currentTurn = 1
         }
-
         if (this.testBoardState() == true) {
           //console.log("computer thinks board is complete");
           this.gameInProgress = false;
           this.onWin(this.winningBoard);
         }
-
         if (this.currentPlay == 10 && this.testBoardState() == false){
           this.gameInProgress = false;
           this.onWin(16);
         }
-      
         if ((this.gameMode==1 || this.gameMode==2) && this.computerTurn == true) {
           var _this = this;
           setTimeout(function() {_this.computerPlayTurnRandom();}, 100);
-          
         }
       }
-    
   },
-
   //returns array with X O and E for empty
   boardIntoArray: function() {
     var currentBoard = [];
-    
     //push board into array
     for (i = 1; i < 10; i++){
       if (document.getElementById("box-" + i).innerHTML == "") {
@@ -363,14 +327,11 @@ var TTT = {
         currentBoard.push(document.getElementById("box-" + i).innerHTML);
       }
     }
-    
     return currentBoard;
-    
   },
   
   testBoardState:function(array = this.boardIntoArray()){ //returns true if win, false if no win
     var currentBoardString = array.join("");
-    
     for (i = 0; i < this.winningGameStates.length; i++){
       if (this.winningGameStates[i].test(currentBoardString) == true) {
         this.winningBoard = i;
@@ -379,10 +340,8 @@ var TTT = {
         return true;
       }
     }
-    
     return false;
   },
-  
   clearBoard:function(){
     this.spotsFilled = [];
     this.currentTurn = 1;
@@ -393,7 +352,6 @@ var TTT = {
   },
   
   playX:function(){
-    
     this.computerTurn = true;
     this.gameMode = 1;
     this.menuSound.play();
@@ -402,7 +360,6 @@ var TTT = {
     this.gameInProgress = true;
     this.clearBoard();
     //document.getElementById("box-1").click();
-    
   },
   
   playO:function(){
@@ -413,7 +370,6 @@ var TTT = {
     this.gameInProgress = true;
     this.clearBoard();
     this.computerPlayTurnRandom();
-    
   },
   
   playPVP:function(){
@@ -427,7 +383,6 @@ var TTT = {
   
   //returns the square numbers that are empty in array form
   findEmptySpaces:function(gameBoardArray = this.boardIntoArray()){
-    
     var tempEmptySpots = [];
     for (i = 0; i < gameBoardArray.length; i++){
       if (gameBoardArray[i]=="E"){
@@ -439,10 +394,8 @@ var TTT = {
   
   //for computer to check if player is going to win next turn
   willPlayerWin: function() {
-    
       var possibleNextGameBoards2 = [];
       var tempEmptySpaces2 = this.findEmptySpaces();
-    
       if (this.currentTurn == 1){
       //given current game board, what are all the possible next game boards for the player if computer didn't choose
           for (k = 0; k < tempEmptySpaces2.length; k++){
@@ -475,7 +428,6 @@ var TTT = {
   
   //for computer to check if it can win this turn
   isWinningTurn: function() {
-  
       var possibleNextGameBoards = [];
       var tempEmptySpaces = this.findEmptySpaces();
       //for x's turn
@@ -492,9 +444,6 @@ var TTT = {
         }
       }
         return -1;
-        
-        
-     
       } else if (this.currentTurn == 2){
       //given current game board, what are all the possible next game boards  
       for (k = 0; k < tempEmptySpaces.length; k++){
@@ -535,26 +484,20 @@ var TTT = {
   
   
   computerPlayTurnRandom:function(){
-    
     var gameBoardArray = this.boardIntoArray();
     var emptySpots = this.findEmptySpaces(gameBoardArray);
     //function only used during computer play, and used to determine before the computer makes its move if there is a winning move
     //this.findOpenCorners();
-    
     if (this.isWinningTurn() != -1){
-      
       this.computerTurn = false;
       document.getElementById("box-" + emptySpots[this.isWinningTurn()]).click();
       this.computerTurn = true;
-    
     } else {
         if (this.willPlayerWin() != -1) {
-          
           this.computerTurn = false;
           var pressThisButton = emptySpots[this.willPlayerWin()];
           document.getElementById("box-" + pressThisButton).click();
-          this.computerTurn = true;
-          
+          this.computerTurn = true;  
         } else {
           var cornerTags = this.findOpenCorners();
           //console.log (cornerTags);
@@ -575,12 +518,10 @@ var TTT = {
               this.computerTurn = false;
               document.getElementById(cornerTags[pressThisButton]).click();
               this.computerTurn = true;
-
            } else {
              //choose randomly
              //console.log(this.isCenterOpen());
               var pressThisButton = [Math.floor(Math.random() * (emptySpots.length - 1) + 1)];
-
               if (this.gameMode==2 && emptySpots.length == 1){
                 //turn off computer turn before computer click so function does recurse!!!!
                 this.computerTurn = false;
@@ -592,21 +533,12 @@ var TTT = {
                 document.getElementById("box-" + emptySpots[pressThisButton]).click();
                 this.computerTurn = true;
                 }
-
-
               }
             }
             }
-
       },
-
-    
-  
 }
 </SCRIPT>
-
-
-<!--code and design by Kate Norton 2018-->
 
 <!-- links to google fonts used in game -->
 <link href='https://fonts.googleapis.com/css?family=Codystar' rel='stylesheet'>
@@ -644,7 +576,4 @@ var TTT = {
   </div>
   
 </div>
-
-
 </BODY>
-
