@@ -44,14 +44,12 @@ textarea {
   width: 49%;
   height: 100vh;
 }
-  </style>
-
+</style>
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js'></script>
-
 <div id = "outer">
   <div id = "topBanner">
     Markdown Previewer
@@ -68,43 +66,30 @@ textarea {
     class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       info: 'Use equals below a line to make an h1\n============\n\nUse minus signs to make an h2\n---------------\n\nBlank line for paragraphs.\n\n*Italic*, **bold**, and `monospace`, ~~strikethrough~~ are that you see\n\n~~~\nvar hello = function() {\n\tconsole.log(\"Hello from a function!\");\n}\n~~~\nA list:\n\n* Hello\n* From\n* Neptune\n\n*[Here is a link to my website!](https://www.katernorton.com)*\n' };
-
-
     this.updatePreview = this.updatePreview.bind(this);
   }
-
   updatePreview(event) {
-
     this.setState({
       info: event.target.value });
-
   }
 
   render() {
-
     return (
       React.createElement("div", null,
       React.createElement("div", { id: "textArea" }, React.createElement("textarea", { onChange: this.updatePreview }, "Use equals below a line to make an h1\n============\n\nUse minus signs to make an h2\n---------------\n\nBlank line for paragraphs.\n\n*Italic*, **bold**, and `monospace`, ~~strikethrough~~ are that you see\n\n~~~\nvar hello = function() {\n\tconsole.log(\"Hello from a function!\");\n}\n~~~\nA list:\n\n* Hello\n* From\n* Neptune\n\n*[Here is a link to my website!](https://www.katernorton.com)*\n")),
       React.createElement(PreviewWindow, { windowStuff: this.state.info })));
-
-
   }}
 
 
 
 class PreviewWindow extends React.Component {
   render() {
-
     const output = marked(this.props.windowStuff);
-
     return (
       React.createElement("div", { id: "previewWindow", dangerouslySetInnerHTML: {
           __html: output } }));
-
-
   }}
 
 
