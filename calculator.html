@@ -118,13 +118,9 @@
      </div> 
   </div> <p id=signature>by Kate Norton</p>
 </div>
- 
-
-
 <SCRIPT>
 var inputOp = false;
 var inputEqual = false;
-
 function calculateString (array){
   //inner function to calculate two things
   function calculateTwoThings (num1, op, num2){
@@ -164,7 +160,6 @@ function calculateString (array){
       document.getElementById("main-display").innerHTML += num;
     }
 }
-
 function pressOperationButton(op) {
   //1 is div, 2 is times, 3 is sub, 4 is plus, 5 is equal
   inputOp = true;
@@ -188,8 +183,7 @@ function pressOperationButton(op) {
     inputEqual = true;
   }}
 }
-
-//instructions fro what happens for clear and backspace buttons
+//instructions for what happens for clear and backspace buttons
 function pressFunctionButton(func){
   //func 1 is clear
   if (func == 1) {
