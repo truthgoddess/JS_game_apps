@@ -7,47 +7,45 @@
 <TITLE>Calculator by Kate Norton</TITLE>
 
 <STYLE>
-body {
-  background: linear-gradient(to right, white, #ffffe6);
-}
+ body {
+   background: linear-gradient(to right, white, #ffffe6);
+ }
 
-#signature {
-  font-size: 75%;
-  color: black;
-  text-align: right;
-}
+ #signature {
+   font-size: 75%;
+   color: black;
+   text-align: right;
+ }
 
-.container{
-    background-color: #ffcc80;
-    margin-top: 30px;
-    height: 530px;
-    width: 300px;
-    border-radius: 3%;
-    box-shadow: 0 0 30px black;
-    }
+ .container{
+   background-color: #ffcc80;
+   margin-top: 30px;
+   height: 530px;
+   width: 300px;
+   border-radius: 3%;
+   box-shadow: 0 0 30px black;
+  }
 
-.reg-btn {
-  width: 72px;
-}
+ .reg-btn {
+   width: 72px;
+ }
 
-.med-btn {
-  width: 142px;
-}
+ .med-btn {
+   width: 142px;
+ }
 
-.lrg-btn {
-  width: 284px;
-}
+ .lrg-btn {
+   width: 284px;
+ }
 
 .btn {
-  
-  box-shadow: 0 0 2px black;
-}
+   box-shadow: 0 0 2px black;
+ }
 
 .row {
-  padding: 8px;
-  height: 75px;
-  
-}
+   padding: 8px;
+   height: 75px;
+ }
 
 .calc-input {
   background: grey;
@@ -65,11 +63,8 @@ body {
 }
 </STYLE>
 </HEAD>
-
 <BODY>
-
 <div class="container">
-  
   <div class="row">
     <div class = "btn-group">
       <button type="button" class="btn med-btn" onclick="pressFunctionButton(1)">Clear</button>
@@ -139,12 +134,9 @@ function calculateString (array){
     case "-": return (num1 - num2);
     case "+": return (num1 + num2);
   }
-}
-  
+} 
   //firstPassArr = []; //going to do all multiplication and division first if present
-  
   var shavedArray = array.slice(0, array.length-2);
-  
   for (i = 0; i < shavedArray.length; i++) {
       if (shavedArray[i]=="÷") {
         shavedArray[i] = "/";
@@ -152,28 +144,22 @@ function calculateString (array){
         shavedArray[i]="*";
       }
     }
-  
-  console.log(shavedArray);
   var shavedString = shavedArray.join("");
-  return eval (shavedString);
-  
-}
-
-function pressNumberButton(num) {
+  return eval (shavedString); 
+  }
+  function pressNumberButton(num) {
     if (inputEqual == true) {
       document.getElementById("sub-display").innerHTML = "";
       inputEqual = false;
     }
-  
     if (inputOp == true){
       document.getElementById("main-display").innerHTML = "";
       inputOp = false;
     }
-    
     if (num == 11 && document.getElementById("main-display").innerHTML.indexOf(".") == -1) {
       document.getElementById("main-display").innerHTML += "."
     } else if (num == 11 && document.getElementById("main-display").innerHTML.indexOf(".") != -1)
-               { console.log("hi");
+       { console.log("hi");
     } else {
       document.getElementById("main-display").innerHTML += num;
     }
@@ -181,11 +167,8 @@ function pressNumberButton(num) {
 
 function pressOperationButton(op) {
   //1 is div, 2 is times, 3 is sub, 4 is plus, 5 is equal
-  
-  
   inputOp = true;
   if (inputEqual == true || document.getElementById("main-display").innerHTML == "") {
-    
   } else if (op == 1) {
     document.getElementById("sub-display").innerHTML += document.getElementById("main-display").innerHTML + " &divide ";
   } else if (op == 2) {
@@ -198,10 +181,8 @@ function pressOperationButton(op) {
     var userArray = document.getElementById("sub-display").innerHTML.split(" ");
     console.log(userArray);
     if (userArray.length == 1){
-      
     } else {
     document.getElementById("sub-display").innerHTML += document.getElementById("main-display").innerHTML + " = ";
-    
     var userArray = document.getElementById("sub-display").innerHTML.split(" ");
     document.getElementById("main-display").innerHTML = calculateString(userArray);
     inputEqual = true;
@@ -217,24 +198,13 @@ function pressFunctionButton(func){
     document.getElementById("sub-display").innerHTML = "";
   } else if (func == 2) {
   //func 2 is backspace
-    
     if (inputOp == true){
-      
     } else {
-      
-    
-    
     if (inputEqual == false) {
     document.getElementById("main-display").innerHTML = document.getElementById("main-display").innerHTML.slice(0, document.getElementById("main-display").innerHTML.length -1 );
       } else {
-        
       }
   }}
 }
-
-
-
-
 </SCRIPT>
 </BODY>
-
