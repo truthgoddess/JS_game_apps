@@ -75,7 +75,6 @@ html, body {
   opacity: 1;
   border-style: solid;
   border-bottom: 0px;
-  
 }
 
 #box-2 {
@@ -83,14 +82,12 @@ html, body {
   opacity: 1;
   border-style: solid;
   border-right: 0px;
-  
 }
 
 #box-3 {
   background: #cccc00;
   opacity: 1;
   border-style: solid;
-  
 }
 
 .col {
@@ -163,20 +160,10 @@ html, body {
   border-style: solid;
   background: grey;
 }
-
-
-
-
 </STYLE>
-
 </HEAD>
-
 <BODY>
-
-<body>
-
 <div id="trans_overlay"></div>
-
 <div id="overlay3">
   <div class = "starting-overlay">
     <div class = "container container-overlay">
@@ -186,22 +173,17 @@ html, body {
     </div>
   </div>
 </div>
-  
 <div id="overlay1">
   <div class = "counter-overlay">
     <div id = "counter-number" class = "counter-row">0</div>
   </div>
 </div>
-
 <div id="overlay2">
   <div class = "restart-overlay">
     <div onclick = "SimonGame.resetPress()" id = "restart-button" class = "counter-row">reset</div>
   </div>
 </div>
-
 </body>
-
-
 <div class = "container container-game">
   <div class = "row row-game">
     <div onclick = "SimonGame.gameBoardPress()" id = "box-0" class = "col"></div>
@@ -212,16 +194,12 @@ html, body {
     <div onclick = "SimonGame.gameBoardPress()" id = "box-3" class = "col"></div>
   </div>
 </div>
-
-
-
 <SCRIPT>
 var SimonShared = {
   sound0: new Audio ("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
   sound1: new Audio ("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
   sound2: new Audio ("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
   sound3: new Audio ("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"),
-  
   onLoad: function () {
     this.sound0.play();
     this.sound0.pause();
@@ -236,7 +214,6 @@ var SimonShared = {
 }
 
 var SimonGame = {
-  
   //global counters
   whosTurn: 0, //0 is computer turn (computer first), 1 is player
   roundCount: 0,
@@ -245,7 +222,6 @@ var SimonGame = {
   playerMoveList: [],
   testingMoveList: [1,0,3,4],
   gameMode: 0, //1 is easy, 2 is medium
-
   //board behaviors followed and press functions
   dimColor: function(boxID) {
     document.getElementById(boxID).style.opacity = ".85";
@@ -273,7 +249,6 @@ var SimonGame = {
       default: console.log("error in playSound switch");
     }
   },
-
   increaseTurnCount: function(amount = 1){
     //console.log("in increaseTurnCount");
     this.roundCount += amount;
@@ -282,18 +257,14 @@ var SimonGame = {
     //console.log("in updateTurnCount");
     document.getElementById("counter-number").innerHTML = this.roundCount;
   },
-  
   addShadow: function(boxID = "restart-button" ){
     document.getElementById(boxID).style.boxShadow = "1px 1px grey, 2px 2px black";
   },
   removeShadow: function(boxID = "restart-button") {
     document.getElementById(boxID).style.boxShadow = "0 0 0 0 black";
   },
-  
-  
-  
+
   gameBoardPress: function(boxID = event.target.id){
-    
     //if easy game mode
     if (this.gameMode == 1) {
     //if player turn, check each press for correct
@@ -309,11 +280,9 @@ var SimonGame = {
             this.insetIn(boxID);
             document.getElementById("counter-number").style.background = "#7FFF00";
             document.getElementById("counter-number").innerHTML = "U Win!";
-
             var _this = this;
             var id1 = setTimeout(function() {_this.unDimColor(boxID);}, 120);
             var id2 = setTimeout(function() {_this.insetOut(boxID);}, 120);
-
             setTimeout(function() {document.getElementById("restart-button").click();}, 1000);
             return;
            }
@@ -324,11 +293,8 @@ var SimonGame = {
           this.dimColor(boxID);
           this.playSound(boxID);
           this.insetIn(boxID);
-          
           document.getElementById("counter-number").style.background = "red";
           //document.getElementById("counter-number").innerHTML = "Oops!";
-          
-          
           var _this = this;
           var id1 = setTimeout(function() {_this.unDimColor(boxID);}, 120);
           var id2 = setTimeout(function() {_this.insetOut(boxID);}, 120);
@@ -337,10 +303,6 @@ var SimonGame = {
           setTimeout(function() {document.getElementById("counter-number").style.background = "white";}, 500);
           //document.getElementById("counter-number").style.background = "#7FFF00";
           this.playMoveListRepeat();
-
-         
-
-          
         }
       }
     }
@@ -360,11 +322,9 @@ var SimonGame = {
           this.playSound(boxID);
           this.insetIn(boxID);
           document.getElementById("counter-number").style.background = "#7FFF00";
-
           var _this = this;
           var id1 = setTimeout(function() {_this.unDimColor(boxID);}, 120);
           var id2 = setTimeout(function() {_this.insetOut(boxID);}, 120);
-
           setTimeout(function() {document.getElementById("restart-button").click();}, 1000);
           return;
         }
@@ -377,24 +337,18 @@ var SimonGame = {
        var _this = this;
        var id = setTimeout(function() {_this.playMoveList();}, 300);
        //this.timeOutIds.push(id);
-      
     }
-
     this.generateNumber();
     this.dimColor(boxID);
     this.playSound(boxID);
     this.insetIn(boxID);
-    
     var _this = this;
-     
     var id1 = setTimeout(function() {_this.unDimColor(boxID);}, 120);
     var id2 = setTimeout(function() {_this.insetOut(boxID);}, 120);
     //this.timeOutIds.push(id1);
     //this.timeOutIds.push(id2);
   },
-  
   resetPress: function (){
-    
     //this.clearTimeouts();
     //console.log(this.timeOutIds);
     this.gameMode = 0;
@@ -411,10 +365,7 @@ var SimonGame = {
     this.computerMoveList = [];
     this.currentPlayerMove = 0;
     this.whosTurn = 0;
-    
-    
   },
- 
   easyPress: function(boxID = event.target.id){
     //console.log("in easyPress");
     this.gameMode = 1;
@@ -431,7 +382,6 @@ var SimonGame = {
     setTimeout(function() {_this.offMainMenu();}, 200);
     setTimeout(function() {_this.playMoveList();}, 300);
   },
-  
   mediumPress: function(boxID = event.target.id){
     this.gameMode = 2;
     SimonShared.onLoad();
@@ -446,8 +396,6 @@ var SimonGame = {
     setTimeout(function() {_this.insetOut(boxID);}, 100);
     setTimeout(function() {_this.offMainMenu();}, 200);
     setTimeout(function() {_this.playMoveList();}, 300);
-    
-    
   },
   
   hardPress: function(boxID = event.target.id){
@@ -497,19 +445,14 @@ var SimonGame = {
     this.onTransOverlay();
     //console.log(this.computerMoveList);
     for (i = 0; i < this.computerMoveList.length + 1; i++) {
-     
       if (i == this.computerMoveList.length){
        var x = setTimeout(function() {_this.whosTurn = 1; console.log()}, (500 * i + 2));
        //this.timeOutIds.push(x);
-       setTimeout(function() {_this.offTransOverlay();}, (500 * (i + 1)));
-        
+       setTimeout(function() {_this.offTransOverlay();}, (500 * (i + 1))); 
       } else {
       this.computerPress(this.computerMoveList[i], i+1);
         }
     }
-    
-    
-    
   },
   
   playMoveList: function() {
@@ -522,19 +465,14 @@ var SimonGame = {
     this.onTransOverlay();
     //console.log(this.computerMoveList);
     for (i = 0; i < this.computerMoveList.length + 1; i++) {
-     
       if (i == this.computerMoveList.length){
        var x = setTimeout(function() {_this.whosTurn = 1; console.log()}, (500 * i + 2));
        //this.timeOutIds.push(x);
        setTimeout(function() {_this.offTransOverlay();}, (500 * (i + 1)));
-        
       } else {
       this.computerPress(this.computerMoveList[i], i+1);
         }
-    }
-    
-    
-    
+    } 
   },
   
   //needed for playMoveList
@@ -544,20 +482,13 @@ var SimonGame = {
   },
   
   doesPlayerMatchComp: function(turn) {
-     
     if (this.computerMoveList[turn] == this.playerMoveList[turn]){
       return true;
     } else {
       return false;
     }
   },
-  
 }
-  
-
 </SCRIPT>
 </BODY>
-
-
-
 </HTML>
