@@ -1,20 +1,17 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <link href="https://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
 <style>
 .container-fluid{
   max-width: 600px;
-  
 }
-
+	
 .container {
   max-width: 600px;
 }
-
-
-
+	
 .row {
   font-family: 'Raleway';
   font-size: 200%;
@@ -33,10 +30,9 @@
   color: white;
 }
 
-body {
-    
-margin-top: 100px;	
-padding: 3rem;
+body { 
+  margin-top: 100px;	
+  padding: 3rem;
   background: purple;
 }
 
@@ -70,7 +66,6 @@ padding: 3rem;
 </style>
 <script>
 var url = "https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand";
-
 function postIt() {
   $.ajaxSetup( {cache: false} );
   $.getJSON(url, function(data) {
@@ -79,41 +74,30 @@ function postIt() {
     document.getElementById("Quoter").innerHTML = (data[0]["title"]["rendered"]);
     });
 }
-
 function tweetIt () {
-  
   var advice = document.getElementById('Quote').innerText;
   var topic = document.getElementById('Quoter').innerText;
   var tweetUrl = 'https://twitter.com/share?text=' +
     encodeURIComponent(topic) + ': ' +
     encodeURIComponent(advice) +
     '&url=' +
-    'https://codepen.io/proposal1220/full/ppodLL';
-    
+    'https://codepen.io/proposal1220/full/ppodLL'; 
   window.open(tweetUrl);
-  
 }
-
-
 </script>
 </head>
 <div class= "container-fluid ">
   <div class="row">
-    
     <p id = "Quote" class = "message">Press button for random quote.</p>
-  
   </div>
   <div class="row">
     <p id = "Quoter" class = "message">;)</p>
   </div>
   <div class="row">
-    
       <button type = "button" class = "btn btn-info" id = "onlyButton" onclick="postIt()"> New Quote </button>
       <button id= "tweet-button" class = "btn btn-info" onclick="tweetIt()">Tweet it</button>
-   
     </div>
-  
    <div class="row">
-<div id = "signature">code and design by Kate Norton &copy; 2019 </div>
+  <div id = "signature">code and design by Kate Norton &copy; 2019 </div>
   <div id = "signature2">Quotes API <a style = "color: Yellow" href = "https://quotesondesign.com/api-v4-0/" target = "_blank">Quotes on Design</a> </div>
  </div>
