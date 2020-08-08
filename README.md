@@ -1,7 +1,5 @@
 # JS_game_apps
-These is a collection of my front end code for various games and apps. 
-
-I developed many of these as part of my training on FreeCodeCamp. Any advice or feedback is appreciated.  
+These is a collection of my front end code for various games and apps that I developed from self-learning and my first attempts at programming. Much of it is a reflection of what I could do without any formal education, and I simply leave this here for the sake of curiousity. 
 
 A bit more detail:
 
